@@ -1,0 +1,171 @@
+2026-01-21 11:48:35 - POST received: Array
+(
+    [title] => bb
+    [category] => crazy
+    [level] => 5
+    [instructor] => 1
+)
+
+2026-01-21 11:48:35 - Insert successful
+2026-01-21 11:48:52 - POST received: Array
+(
+    [title] => rishim
+    [category] => begener
+    [level] => 2
+    [instructor] => 1
+)
+
+2026-01-21 11:48:52 - Insert successful
+2026-01-21 11:51:39 - POST received: Array
+(
+    [title] => science
+    [category] => 2
+    [level] => 4
+    [instructor] => 1
+)
+
+2026-01-21 11:51:39 - Insert successful
+2026-01-21 18:06:48 - POST received: Array
+(
+    [title] => bio
+    [category] => 2
+    [level] => 5
+    [instructor_name] => pawan
+    [instructor] => 
+)
+
+2026-01-21 18:06:48 - Error: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`course_management`.`courses`, CONSTRAINT `courses_ibfk_1` FOREIGN KEY (`instructor_id`) REFERENCES `instructors` (`id`))
+2026-01-21 18:07:50 - POST received: Array
+(
+    [title] => bio
+    [category] => 2
+    [level] => 5
+    [instructor_name] => pawan
+    [instructor] => 
+)
+
+2026-01-21 18:07:53 - POST received: Array
+(
+    [title] => bio
+    [category] => 2
+    [level] => 5
+    [instructor_name] => pawan
+    [instructor] => 
+)
+
+2026-01-21 18:08:06 - POST received: Array
+(
+    [title] => bio
+    [category] => 2
+    [level] => 5
+    [instructor_name] => John Doe
+    [instructor] => 1
+)
+
+2026-01-21 18:08:06 - Insert successful
+2026-01-21 18:08:31 - POST received: Array
+(
+    [title] => health
+    [category] => 2
+    [level] => 5
+    [instructor_name] => Bob Johnson
+    [instructor] => 3
+)
+
+2026-01-21 18:08:31 - Insert successful
+2026-01-21 18:12:56 - POST received: Array
+(
+    [title] => python
+    [category] => SEE graduate
+    [level] => meduim
+    [instructor_name] => John Doe
+    [instructor] => 1
+)
+
+2026-01-21 18:12:56 - Insert successful
+2026-01-21 18:14:33 - POST received: Array
+(
+    [title] => science
+    [category] => +2
+    [level] => meduim
+    [instructor_name] => Bob Johnson
+    [instructor] => 3
+)
+
+2026-01-21 18:14:33 - Insert successful
+2026-01-21 18:18:48 - POST received: Array
+(
+    [title] => gv
+    [category] => +2
+    [level] => meduim
+    [instructor_name] => John Doe
+    [instructor] => 1
+)
+
+2026-01-21 18:18:48 - Insert successful
+2026-01-21 18:52:12 - POST received: Array
+(
+    [title] => mm
+    [category] => 2
+    [level] => 5
+    [instructor_name] => Alice Brown
+    [instructor] => 4
+)
+
+2026-01-21 18:52:12 - Insert successful
+2026-01-23 12:08:57 - POST received: Array
+(
+    [title] => Programming
+    [category] => it
+    [level] => 6
+    [instructor_name] => Jane Smith
+    [instructor] => 2
+)
+
+2026-01-23 12:08:57 - Insert successful
+2026-01-24 15:04:24 - POST received: Array
+(
+    [title] => MATH
+    [category] => secondary
+    [level] => 5
+    [instructor_name] => John Doe
+    [instructor] => 1
+)
+
+2026-01-24 15:04:24 - Insert successful
+2026-01-24 17:08:07 - POST received: Array
+(
+    [title] => math
+    [category] => +2
+    [level] => meduim
+    [instructor] => 4
+    [captcha_answer] => 7
+)
+
+2026-01-24 17:08:11 - POST received: Array
+(
+    [title] => math
+    [category] => +2
+    [level] => meduim
+    [instructor] => 4
+    [captcha_answer] => 7
+)
+
+2026-01-25 15:15:48 - POST received: Array
+(
+    [title] => vv
+    [category] => vf
+    [level] => vv
+    [instructor] => 4
+)
+
+2026-01-25 15:15:48 - Insert successful
+2026-01-25 15:16:11 - POST received: Array
+(
+    [title] => hp
+    [category] => +2
+    [level] => meduim
+    [instructor] => 2
+)
+
+2026-01-25 15:16:11 - Insert successful
