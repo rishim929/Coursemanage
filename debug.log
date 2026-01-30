@@ -169,3 +169,12 @@
 )
 
 2026-01-25 15:16:11 - Insert successful
+2026-01-27 16:42:45 - POST received: Array
+(
+    [title] => opt
+    [category] => 2
+    [level] => meduim
+    [instructor] => 4
+)
+
+2026-01-27 16:42:45 - Insert successful
