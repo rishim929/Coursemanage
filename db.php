@@ -1,8 +1,8 @@
 <?php
 $host = "localhost";
-$dbname = "course_management";
-$user = "root";
-$pass = "";
+$dbname = "np02cs4a240094";
+$user = "np02cs4a240094";
+$pass = "cTed1NUw6x";
 
 try {
     $pdo = new PDO(
@@ -12,6 +12,6 @@ try {
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
     );
 } catch (PDOException $e) {
-    die("Database Connection Failed");
+    die("Database Connection Failed: " . $e->getMessage());
 }
 ?>

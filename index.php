@@ -1,4 +1,33 @@
-<?php require 'session_check.php'; ?>
+<?php 
+// Set cookie params to match login.php
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/OnlineCourseManagementSystem',
+    'domain' => '',
+    'secure' => false,
+    'httponly' => true,
+    'samesite' => 'Lax',
+]);
+// Check session at the very start
+session_start();
+if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true) {
+    header("Location: login.php");
+    exit;
+}
+
+// Check session timeout (30 minutes)
+$timeout = 1800;
+if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $timeout)) {
+    session_destroy();
+    header("Location: login.php?timeout=1");
+    exit;
+}
+
+// Update last activity
+$_SESSION['last_activity'] = time();
+
+require "db.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,22 +102,6 @@
             color: #fff;
             border: 1px solid #555;
         }
-        #darkModeToggle {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: #333;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-        }
         #instructor_suggestions {
             border: 1px solid #ccc;
             max-height: 150px;
@@ -137,10 +150,25 @@
         <a href="students.php">Manage Students</a> | <a href="instructors.php">Manage Instructors</a> | <a href="enrollments.php">Manage Enrollments</a>
     </div>
     <br>
+    
+    <!-- Display Messages -->
+    <?php if (isset($_SESSION['error'])): ?>
+        <div style="background-color: #f8d7da; color: #721c24; padding: 12px; margin: 10px 0; border: 1px solid #f5c6cb; border-radius: 4px;">
+            <?= htmlspecialchars($_SESSION['error']); ?>
+        </div>
+        <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
+    
+    <?php if (isset($_SESSION['success'])): ?>
+        <div style="background-color: #d4edda; color: #155724; padding: 12px; margin: 10px 0; border: 1px solid #c3e6cb; border-radius: 4px;">
+            <?= htmlspecialchars($_SESSION['success']); ?>
+        </div>
+        <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
+    
     <input type="text" id="search" placeholder="Search by category, level, or instructor">
     <div id="result"></div>
     <?php
-    require "db.php";
 
     $query = $pdo->query("
         SELECT courses.*, instructors.name AS instructor

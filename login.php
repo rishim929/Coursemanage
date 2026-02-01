@@ -1,4 +1,13 @@
 <?php
+// Set cookie params to match other pages
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/OnlineCourseManagementSystem',
+    'domain' => '',
+    'secure' => false,
+    'httponly' => true,
+    'samesite' => 'Lax',
+]);
 session_start();
 
 // If user is already logged in, redirect to home
