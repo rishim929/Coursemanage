@@ -10,6 +10,24 @@ session_set_cookie_params([
 ]);
 // Check session at the very start
 session_start();
+
+// Temporary debug - log what we're checking
+$debug_mode = true;
+if ($debug_mode && isset($_GET['debug'])) {
+    echo "<pre style='background: #f0f0f0; padding: 10px; border: 2px solid red;'>";
+    echo "INDEX.PHP DEBUG:\n";
+    echo "Session ID: " . session_id() . "\n";
+    echo "Session authenticated: " . (isset($_SESSION['authenticated']) ? ($_SESSION['authenticated'] ? 'true' : 'false') : 'NOT SET') . "\n";
+    echo "Session data:\n";
+    print_r($_SESSION);
+    echo "</pre>";
+    if (!isset($_SESSION['authenticated'])) {
+        echo "<p style='color: red; font-weight: bold;'>Session 'authenticated' key is NOT SET - will redirect to login</p>";
+    } elseif ($_SESSION['authenticated'] !== true) {
+        echo "<p style='color: red; font-weight: bold;'>Session 'authenticated' is NOT TRUE - will redirect to login</p>";
+    }
+}
+
 if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true) {
     header("Location: login.php");
     exit;

@@ -1,4 +1,7 @@
 <?php
+// Start output buffering to prevent header issues
+ob_start();
+
 // Set cookie params to match other pages
 session_set_cookie_params([
     'lifetime' => 0,
@@ -12,6 +15,7 @@ session_start();
 
 // If user is already logged in, redirect to home
 if (isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true) {
+    ob_end_clean();
     header("Location: index.php");
     exit;
 }
@@ -20,8 +24,13 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require 'db.php';
     
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
+    $username = trim($_POST['username'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+    
+    // Temporary debugging - remove after testing
+    $debug_info = [];
+    $debug_info['username_entered'] = $username;
+    $debug_info['password_length'] = strlen($password);
     
     if (empty($username) || empty($password)) {
         $error = 'Username and password are required';
@@ -32,9 +41,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([$username]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            // Check if user exists and password matches (exact match, not hashed)
-            if ($user && $user['password'] === $password) {
-                // Login successful
+            // Debugging
+            $debug_info['user_found'] = $user ? 'YES' : 'NO';
+            if ($user) {
+                $debug_info['db_password_length'] = strlen($user['password']);
+                $debug_info['passwords_match'] = (trim($user['password']) === $password) ? 'YES' : 'NO';
+            }
+            
+            // Check if user exists and password matches - trim database password too
+            if ($user && trim($user['password']) === $password) {
+                // Regenerate session ID first for security (before setting sensitive data)
+                session_regenerate_id(true);
+                
+                // Now set session variables in the new session
                 $_SESSION['authenticated'] = true;
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
@@ -43,10 +62,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
                 $_SESSION['last_activity'] = time();
                 
-                header("Location: index.php");
-                exit;
+                // Force session save
+                session_write_close();
+                session_start();
+                
+                // Verify session was saved (temporary debug)
+                if ($_SESSION['authenticated'] === true) {
+                    // Clear output buffer and redirect
+                    ob_end_clean();
+                    header("Location: index.php");
+                    exit;
+                } else {
+                    $error = 'Session failed to save - please contact administrator';
+                }
             } else {
                 $error = 'Invalid username or password';
+                // Show debug info
+                $error .= '<br><small>Debug: User found: ' . ($user ? 'Yes' : 'No');
+                if ($user) {
+                    $error .= ' | DB pwd len: ' . strlen($user['password']) . ' | Input pwd len: ' . strlen($password);
+                    $error .= ' | Match: ' . ((trim($user['password']) === $password) ? 'Yes' : 'No');
+                }
+                $error .= '</small>';
             }
         } catch (Exception $e) {
             $error = 'Database error: ' . $e->getMessage();
